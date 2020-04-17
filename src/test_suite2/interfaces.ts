@@ -43,7 +43,7 @@ export interface Step<TURN> {
 }
 
 export type ValidationStep<TURN> = Step<TURN> & Expected;
-export type MergedValidationStep<TURN> = Step<TURN> & Step<TURN> & Expected;
+// export type MergedValidationStep<TURN> = Step<TURN> & Step<TURN> & Expected;
 export type ScoredStep<TURN> = ValidationStep<TURN> & Measures;
 
 export interface GenericCase<STEP> {
@@ -61,11 +61,11 @@ export interface GenericSuite<STEP> {
 
 export type LogicalTestSuite<TURN> = GenericSuite<Step<TURN>>;
 export type LogicalValidationSuite<TURN> = GenericSuite<ValidationStep<TURN>>;
-export type LogicalMergedValidationSuite<TURN> = GenericSuite<ValidationStep<TURN>>;
+// export type LogicalMergedValidationSuite<TURN> = GenericSuite<ValidationStep<TURN>>;
 export type LogicalScoredSuite<TURN> = GenericSuite<ScoredStep<TURN>>;
 
 export type AnySuite<TURN> =
     | LogicalTestSuite<TURN>
     | LogicalValidationSuite<TURN>
-    | LogicalMergedValidationSuite<TURN>
+    // | LogicalMergedValidationSuite<TURN>
     | LogicalScoredSuite<TURN>;

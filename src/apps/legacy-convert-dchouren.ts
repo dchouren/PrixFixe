@@ -13,9 +13,11 @@ import {
     GenericCase,
     LogicalCart,
     LogicalItem,
-    MergedValidationStep,
+    ValidationStep,
+    // MergedValidationStep,
     CombinedTurn
 } from "../test_suite2";
+import { printCatalog } from '../repl';
 
 // Holds a single line of an Order with sku instead of key.
 export interface SkuLineItem {
@@ -57,11 +59,11 @@ function convertLegacyTestSuiteFile()
     if (args.d) {
         dataPath = args.d;
     }
-    if (dataPath === undefined) {
-        const message =
-            'Use -d flag or PRIX_FIXE_DATA environment variable to specify data path';
-        return fail(message);
-    }
+    // if (dataPath === undefined) {
+    //     const message =
+    //         'Use -d flag or PRIX_FIXE_DATA environment variable to specify data path';
+    //     return fail(message);
+    // }
 
     console.log('Converting');
     console.log(`  from legacy test suite: ${inFile}`);
@@ -69,17 +71,17 @@ function convertLegacyTestSuiteFile()
     console.log(`With data path = ${dataPath}`);
     console.log('');
 
-    let world: World;
-    try {
-        world = createWorld(dataPath);
-    } catch (err) {
-        if (err.code === 'ENOENT' || err.code === 'EISDIR') {
-            const message = `Error: create world failed: cannot open "${err.path}"`;
-            return fail(message);
-        } else {
-            throw err;
-        }
-    }
+    // let world: World;
+    // try {
+    //     world = createWorld(dataPath);
+    // } catch (err) {
+    //     if (err.code === 'ENOENT' || err.code === 'EISDIR') {
+    //         const message = `Error: create world failed: cannot open "${err.path}"`;
+    //         return fail(message);
+    //     } else {
+    //         throw err;
+    //     }
+    // }
 
     // Load the legacy test suite.
     let yamlTextIn: string;
@@ -99,6 +101,7 @@ function convertLegacyTestSuiteFile()
         legacySuite = yaml.safeLoad(yamlTextIn) as LegacySuite;
     } catch (err) {
         const message = `Error: invalid yaml in ${inFile}`;
+        console.log(JSON.stringify(err, null, 4));
         return fail(message);
     }
 
@@ -161,7 +164,7 @@ function convertLegacyTestSuite(
         const steps: Array<MergedValidationStep<CombinedTurn>> = [];
         for (let i = 0; i < legacy.steps.length; ++i) {
             const cart: LogicalCart = convertLegacyCart(
-                legacy.steps[i].expected.items,
+                legacy.steps[i].expected.items
             );
             steps.push({
                 turns: legacy.steps[i].turns,
