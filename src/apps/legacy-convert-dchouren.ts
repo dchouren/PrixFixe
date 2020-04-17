@@ -156,12 +156,12 @@ function showUsage() {
 
 function convertLegacyTestSuite(
     legacySuite: LegacySuite
-): Array<GenericCase<MergedValidationStep<CombinedTurn>>> {
+): Array<GenericCase<ValidationStep<CombinedTurn>>> {
     const convertLegacyCase = (
         legacy: LegacyCase,
         id: number
-    ): GenericCase<MergedValidationStep<CombinedTurn>> => {
-        const steps: Array<MergedValidationStep<CombinedTurn>> = [];
+    ): GenericCase<ValidationStep<CombinedTurn>> => {
+        const steps: Array<ValidationStep<CombinedTurn>> = [];
         for (let i = 0; i < legacy.steps.length; ++i) {
             const cart: LogicalCart = convertLegacyCart(
                 legacy.steps[i].expected.items
